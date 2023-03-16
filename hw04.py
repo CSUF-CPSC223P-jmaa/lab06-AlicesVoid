@@ -65,12 +65,14 @@ def planet(mass):
     """Construct a planet of some mass."""
     assert mass > 0
     "*** YOUR CODE HERE ***"
+    return ['planet', mass]
 
 
 def mass(w):
     """Select the mass of a planet."""
     assert is_planet(w), 'must call mass on a planet'
     "*** YOUR CODE HERE ***"
+    return w[-1]
 
 
 def is_planet(w):
@@ -105,7 +107,14 @@ def total_weight(m):
         assert is_mobile(m), "must get total weight of a mobile or a planet"
         return total_weight(end(left(m))) + total_weight(end(right(m)))
 
-
+#determines total weight of an arm 
+def arm_weight(m):
+    #print("is an arm: " + str(is_arm(m)))
+    if(is_arm(m)): 
+        return total_weight(end(m))*length(m) 
+    else: return total_weight(m) 
+     
+        
 def balanced(m):
     """Return whether m is balanced.
 
@@ -127,6 +136,18 @@ def balanced(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    #print("Are they Equal?" + str(arm_weight(right(m))) + " and " + str(arm_weight((left(m)))))
+   
+    if arm_weight(right(m)) != arm_weight(left(m)):
+        return False
+    elif is_arm(left(m)) and is_mobile(end(left(m))) and is_arm(right(m)) and is_mobile(end(right(m))):
+        return balanced(end(left(m))) and balanced(end(right(m)))
+    elif is_arm(right(m)) and is_mobile(end(right(m))):
+        return True and balanced(end(right(m)))
+    elif is_arm(left(m)) and is_mobile(end(left(m))):
+        return True and balanced(end(left(m)))
+    else:
+        return True
 
 
 def totals_tree(m):
